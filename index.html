@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تعهدوا القرآن</title>
+    <!-- هذا السطر هو المسؤول عن إظهار الصورة كأيقونة -->
+    <link rel="icon" type="image/jpeg" href="icon.jpg">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=El+Messiri:wght@600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #f7fbfc; 
+            --primary-blue: #0089a7; 
+            --dark-blue: #132c8c; 
+            --gold-accent: #b28a47; 
+        }
+
+        body { 
+            font-family: 'Amiri', serif; 
+            background-color: var(--bg-color); 
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            direction: rtl; 
+        }
+
+        .card { 
+            background: white; 
+            padding: 35px; 
+            border-radius: 30px; 
+            box-shadow: 0 20px 50px rgba(19, 44, 140, 0.1); 
+            width: 100%; 
+            max-width: 500px; 
+            text-align: center;
+            border-bottom: 8px solid var(--gold-accent);
+        }
+
+        h2 { 
+            font-family: 'El Messiri', sans-serif;
+            color: var(--dark-blue); 
+            font-weight: 700;
+            font-size: 32px;
+            margin-bottom: 25px;
+        }
+        
+        .motivation-box { 
+            background: #fcfdfe; 
+            padding: 25px; 
+            border-radius: 15px; 
+            border: 1px solid #eef2f5; 
+            border-right: 6px solid var(--gold-accent);
+            margin: 20px 0; 
+            font-size: 22px; 
+            color: var(--dark-blue); 
+            min-height: 100px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            line-height: 1.6;
+        }
+
+        .main-btn { 
+            width: 100%; 
+            background: var(--dark-blue); 
+            color: white; 
+            border: none; 
+            padding: 18px; 
+            border-radius: 12px; 
+            font-size: 22px; 
+            cursor: pointer; 
+            font-family: 'El Messiri', sans-serif;
+            font-weight: 700;
+        }
+
+        .day-row { 
+            background: #fff; 
+            padding: 15px; 
+            margin-top: 12px; 
+            border-right: 5px solid var(--primary-blue); 
+            border-radius: 10px; 
+            text-align: right; 
+            font-size: 18px; 
+        }
+
+        .day-name { 
+            font-family: 'El Messiri', sans-serif;
+            color: var(--dark-blue); 
+            font-weight: 700; 
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>تعهدوا القرآن</h2>
+    
+    <div id="motivationDisplay" class="motivation-box">
+        <!-- الرسائل العشوائية تظهر هنا -->
+    </div>
+
+    <label style="display:block; text-align:right; margin-bottom:5px;">بدءاً من سورة:</label>
+    <select id="surahSelect" style="width:100%; padding:12px; margin-bottom:20px; border-radius:10px; border:1px solid #ddd;"></select>
+
+    <label style="display:block; text-align:right; margin-bottom:5px;">الآية:</label>
+    <input type="number" id="ayahInput" value="1" style="width:100%; padding:12px; margin-bottom:20px; border-radius:10px; border:1px solid #ddd;">
+
+    <button class="main-btn" onclick="calculateWard()">احسب ورد الأسبوع</button>
+
+    <div id="results" style="margin-top: 25px;"></div>
+</div>
+
+<script>
+    // جميع الرسائل التي طلبتها مدمجة هنا
+    const messages = ["القرآن حجة لك أو عليك", "من ترك القرآن تركه الله", "القرآن صديق القبر", "من نسي القرآن نسيه الله", "القرآن لا يهجر إلا قلب ميت", "أعظم الخسارة هجر القرآن", "القرآن في رفّك… أم في قلبك؟", "تركت القرآن… فبماذا ملأت قلبك؟", "هل تخيلت أن القرآن سيشتكيك يوم القيامة؟", "هاتفك تفتحه مئة مرة… والمصحف؟", "الغفلة تبدأ بهجر القرآن", "القلب يصدأ… والقرآن جلاؤه", "هل ضاق صدرك؟ ربما لأنك هجرته", "كم ساعة للهاتف؟ وكم دقيقة للقرآن؟", "قلبك يحتاج القرآن… أكثر مما تظن", "لا تجعل المصحف غريبًا في بيتك", "اقرأ قبل أن يأتي يوم لا تستطيع", "اقرأ قبل أن يقرأ عليك", "اقرأ قبل أن تشكو الغفلة", "لو طهرت قلوبكم ما شبعتم من كلام الله", "نزل القرآن ليُعمل به فاتخذ الناس تلاوته عملاً", "شكوت إلى وكيع سوء حفظي فأرشدني إلى ترك المعاصي", "ينبغي لقارئ القرآن أن يُعرف بدمعته", "وقال الرسول يا رب إن قومي اتخذوا هذا القرآن مهجورًا", "كم من قارئٍ للقرآن والقرآن يلعنه", "إنما يريد الله منك صدق النية", "الإخلاص هو إفراد الحق سبحانه بالقصد في الطاعة", "من أخلص لله كفاه الله", "ما خافه إلا مؤمن، ولا أمنه إلا منافق", "كم من عمل ظاهره صالح وقلب صاحبه خراب", "إن قدرت أن لا تُعرف فافعل", "كيف تنام والقرآن مهجور؟", "قلب بلا قرآن… قلب ميت", "أَلَا بِذِكْرِ ٱللَّهِ تَطْمَئِنُّ ٱلْقُلُوبُ", "وَرَتِّلِ ٱلْقُرْآنَ تَرْتِيلًا", "إِنَّ مَعِيَ رَبِّي سَيَهْدِينِ", "يَرْفَعِ ٱللَّهُ ٱلَّذِينَ آمَنُوا", "وَمَن يَعْشُ عَن ذِكْرِ ٱلرَّحْمَٰنِ", "قُلْ هُوَ لِلَّذِينَ آمَنُوا هُدًى وَشِفَاءٌ", "ٱقْرَأْ وَرَبُّكَ ٱلْأَكْرَمُ", "يُحِبُّهُمْ وَيُحِبُّونَهُ", "ٱهْدِنَا ٱلصِّرَاطَ ٱلْمُسْتَقِيمَ", "ذَٰلِك ٱلْكِتَابُ لَا رَيْبَ فِيهِ", "ٱلَّذِينَ يَذْكُرُونَ ٱللَّهَ قِيَامًا وَقُعُودًا", "يَتْلُونَ كِتَابَ ٱللَّهِ", "قَدْ جَاءَكُم مِّنَ ٱللَّهِ نُورٌ", "فَبِأَيِّ حَدِيثٍ بَعْدَهُ يُؤْمِنُونَ", "يَا أَيُّهَا ٱلنَّاسُ قَدْ جَاءَتْكُم مَّوْعِظَةٌ", "نَحْنُ نَقُصُّ عَلَيْكَ أَحْسَنَ ٱلْقَصَصِ", "ٱلْحَمْدُ لِلَّهِ ٱلَّذِي أَنزَلَ عَلَىٰ عَبْدِهِ ٱلْكِتَابَ"];
+
+    function updateMessage() {
+        const randomMsg = messages[Math.floor(Math.random() * messages.length)];
+        document.getElementById('motivationDisplay').innerText = randomMsg;
+    }
+    updateMessage();
+    setInterval(updateMessage, 60000);
+
+    const quranData = [{name: "الفاتحة", ayahs: 7}, {name: "البقرة", ayahs: 286}, {name: "آل عمران", ayahs: 200}, {name: "النساء", ayahs: 176}, {name: "المائدة", ayahs: 120}, {name: "الأنعام", ayahs: 165}, {name: "الأعراف", ayahs: 206}, {name: "الأنفال", ayahs: 75}, {name: "التوبة", ayahs: 129}, {name: "يونس", ayahs: 109}, {name: "هود", ayahs: 123}, {name: "يوسف", ayahs: 111}, {name: "الرعد", ayahs: 43}, {name: "إبراهيم", ayahs: 52}, {name: "الحجر", ayahs: 99}, {name: "النحل", ayahs: 128}, {name: "الإسراء", ayahs: 111}, {name: "الكهف", ayahs: 110}, {name: "مريم", ayahs: 98}, {name: "طه", ayahs: 135}, {name: "الأنبياء", ayahs: 112}, {name: "الحج", ayahs: 78}, {name: "المؤمنون", ayahs: 118}, {name: "النور", ayahs: 64}, {name: "الفرقان", ayahs: 77}, {name: "الشعراء", ayahs: 227}, {name: "النمل", ayahs: 93}, {name: "القصص", ayahs: 88}, {name: "العنكبوت", ayahs: 69}, {name: "الروم", ayahs: 60}, {name: "لقمان", ayahs: 34}, {name: "السجدة", ayahs: 30}, {name: "الأحزاب", ayahs: 73}, {name: "سبأ", ayahs: 54}, {name: "فاطر", ayahs: 45}, {name: "يس", ayahs: 83}, {name: "الصافات", ayahs: 182}, {name: "ص", ayahs: 88}, {name: "الزمر", ayahs: 75}, {name: "غافر", ayahs: 85}, {name: "فصلت", ayahs: 54}, {name: "الشورى", ayahs: 53}, {name: "الزخرف", ayahs: 89}, {name: "الدخان", ayahs: 59}, {name: "الجاثية", ayahs: 37}, {name: "الأحقاف", ayahs: 35}, {name: "محمد", ayahs: 38}, {name: "الفتح", ayahs: 29}, {name: "الحجرات", ayahs: 18}, {name: "ق", ayahs: 45}, {name: "الذاريات", ayahs: 60}, {name: "الطور", ayahs: 49}, {name: "النجم", ayahs: 62}, {name: "القمر", ayahs: 55}, {name: "الرحمن", ayahs: 78}, {name: "الواقعة", ayahs: 96}, {name: "الحديد", ayahs: 29}, {name: "المجادلة", ayahs: 22}, {name: "الحشر", ayahs: 24}, {name: "الممتحنة", ayahs: 13}, {name: "الصف", ayahs: 14}, {name: "الجمعة", ayahs: 11}, {name: "المنافقون", ayahs: 11}, {name: "التغابن", ayahs: 18}, {name: "الطلاق", ayahs: 12}, {name: "التحريم", ayahs: 12}, {name: "الملك", ayahs: 30}, {name: "القلم", ayahs: 52}, {name: "الحاقة", ayahs: 52}, {name: "المعارج", ayahs: 44}, {name: "نوح", ayahs: 28}, {name: "الجن", ayahs: 28}, {name: "المزمل", ayahs: 20}, {name: "المدثر", ayahs: 56}, {name: "القيامة", ayahs: 40}, {name: "الإنسان", ayahs: 31}, {name: "المرسلات", ayahs: 50}, {name: "النبأ", ayahs: 40}, {name: "النازعات", ayahs: 46}, {name: "عبس", ayahs: 42}, {name: "التكوير", ayahs: 29}, {name: "الانفطار", ayahs: 19}, {name: "المطففين", ayahs: 36}, {name: "الانشقاق", ayahs: 25}, {name: "البروج", ayahs: 22}, {name: "الطارق", ayahs: 17}, {name: "الأعلى", ayahs: 19}, {name: "الغاشية", ayahs: 26}, {name: "الفجر", ayahs: 30}, {name: "البلد", ayahs: 20}, {name: "الشمس", ayahs: 15}, {name: "الليل", ayahs: 21}, {name: "الضحى", ayahs: 11}, {name: "الشرح", ayahs: 8}, {name: "التين", ayahs: 8}, {name: "العلق", ayahs: 19}, {name: "القدر", ayahs: 5}, {name: "البينة", ayahs: 8}, {name: "الزلزلة", ayahs: 8}, {name: "العاديات", ayahs: 11}, {name: "القارعة", ayahs: 11}, {name: "التكاثر", ayahs: 8}, {name: "العصر", ayahs: 3}, {name: "الهمزة", ayahs: 9}, {name: "الفيل", ayahs: 5}, {name: "قريش", ayahs: 4}, {name: "الماعون", ayahs: 7}, {name: "الكوثر", ayahs: 3}, {name: "الكافرون", ayahs: 6}, {name: "النصر", ayahs: 3}, {name: "المسد", ayahs: 5}, {name: "الإخلاص", ayahs: 4}, {name: "الفلق", ayahs: 5}, {name: "الناس", ayahs: 6}];
+
+    const select = document.getElementById('surahSelect');
+    quranData.forEach((s, idx) => { let opt = document.createElement('option'); opt.value = idx; opt.innerHTML = s.name; select.appendChild(opt); });
+
+    function getAbsoluteAyah(sIdx, aNum) { let c = 0; for(let i=0; i<sIdx; i++) c += quranData[i].ayahs; return c + aNum; }
+    function getRelativeAyah(abs) { let c = 0; for(let i=0; i<114; i++) { if(c + quranData[i].ayahs >= abs) return {name: quranData[i].name, ayah: abs - c}; c += quranData[i].ayahs; } return {name: "الناس", ayah: 6}; }
+
+    function calculateWard() {
+        const sIdx = parseInt(select.value);
+        const aNum = parseInt(document.getElementById('ayahInput').value) || 1;
+        const total = 6236;
+        const currentAbs = getAbsoluteAyah(sIdx, aNum);
+        const daily = Math.ceil((total - currentAbs) / 7);
+        let html = "";
+        const days = ["السبت", "الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة"];
+        let tempAbs = currentAbs;
+        for (let i = 0; i < 7; i++) {
+            let start = getRelativeAyah(tempAbs);
+            let endAbs = tempAbs + daily;
+            if (endAbs >= 6236 || i === 6) endAbs = 6236;
+            let end = getRelativeAyah(endAbs);
+            html += `<div class="day-row"><span class="day-name">${days[i]}</span> من ${start.name} (${start.ayah}) إلى ${end.name} (${end.ayah})</div>`;
+            tempAbs = endAbs;
+            if (tempAbs >= 6236) break;
+        }
+        document.getElementById('results').innerHTML = html;
+    }
+</script>
+</body>
+</html>
