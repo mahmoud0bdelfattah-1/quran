@@ -3,14 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تعهدوا القرآن</title>
+    <title>تعهدوا القرآن - نظام الصفحات المحكم</title>
     
-    <!-- أكواد الأيقونة الشاملة (آيفون، أندرويد، كمبيوتر) -->
     <link rel="icon" type="image/jpeg" href="icon.jpg">
     <link rel="apple-touch-icon" href="icon.jpg">
-    <link rel="apple-touch-icon" sizes="180x180" href="icon.jpg">
-    <link rel="shortcut icon" href="icon.jpg">
-
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=El+Messiri:wght@600;700&display=swap" rel="stylesheet">
     
     <style>
@@ -34,7 +30,7 @@
 
         .card { 
             background: white; 
-            padding: 35px; 
+            padding: 25px; 
             border-radius: 30px; 
             box-shadow: 0 20px 50px rgba(19, 44, 140, 0.1); 
             width: 100%; 
@@ -44,135 +40,184 @@
             margin: 20px;
         }
 
-        h2 { 
-            font-family: 'El Messiri', sans-serif;
-            color: var(--dark-blue); 
-            font-weight: 700;
-            font-size: 32px;
-            margin-bottom: 25px;
-        }
+        h2 { font-family: 'El Messiri', sans-serif; color: var(--dark-blue); font-size: 22px; margin-bottom: 15px; }
         
         .motivation-box { 
             background: #fcfdfe; 
-            padding: 25px; 
+            padding: 15px; 
             border-radius: 15px; 
-            border: 1px solid #eef2f5; 
             border-right: 6px solid var(--gold-accent);
-            margin: 20px 0; 
-            font-size: 22px; 
+            margin-bottom: 20px; 
+            font-size: 17px; 
             color: var(--dark-blue); 
-            min-height: 100px; 
+            min-height: 60px; 
             display: flex; 
             align-items: center; 
             justify-content: center;
-            line-height: 1.6;
         }
+
+        .switch-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding: 8px;
+            background: #f0f4f7;
+            border-radius: 50px;
+        }
+
+        .switch { position: relative; display: inline-block; width: 40px; height: 20px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 20px; }
+        .slider:before { position: absolute; content: ""; height: 14px; width: 14px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: var(--primary-blue); }
+        input:checked + .slider:before { transform: translateX(20px); }
+
+        .input-section { background: #f9f9f9; padding: 15px; border-radius: 15px; margin-bottom: 15px; border: 1px solid #eee; }
+        .input-group { display: flex; gap: 8px; margin-bottom: 10px; }
+        .input-group select, .input-group input { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #ddd; font-family: 'Amiri', serif; font-size: 15px; }
+        
+        label { display: block; text-align: right; margin-bottom: 5px; font-weight: bold; font-size: 14px; color: var(--dark-blue); }
 
         .main-btn { 
             width: 100%; 
             background: var(--dark-blue); 
             color: white; 
             border: none; 
-            padding: 18px; 
+            padding: 15px; 
             border-radius: 12px; 
-            font-size: 22px; 
+            font-size: 18px; 
             cursor: pointer; 
             font-family: 'El Messiri', sans-serif;
             font-weight: 700;
         }
 
-        .day-row { 
-            background: #fff; 
-            padding: 15px; 
-            margin-top: 12px; 
-            border-right: 5px solid var(--primary-blue); 
-            border-radius: 10px; 
-            text-align: right; 
-            font-size: 18px; 
-        }
-
-        .day-name { 
-            font-family: 'El Messiri', sans-serif;
-            color: var(--dark-blue); 
-            font-weight: 700; 
-            margin-left: 10px;
-        }
-
-        .notif-status { font-size: 12px; color: #888; margin-top: 10px; }
+        .day-row { background: #fff; padding: 12px; margin-top: 10px; border-right: 5px solid var(--primary-blue); border-radius: 10px; text-align: right; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .day-name { font-weight: 700; color: var(--gold-accent); margin-left: 5px; }
+        .ward-detail { display: block; font-size: 15px; color: var(--dark-blue); margin-top: 4px; line-height: 1.4; }
     </style>
 </head>
 <body>
 
 <div class="card">
-    <h2>تعهدوا القرآن</h2>
+    <h2>نظام مراجعة الصفحات المحكم</h2>
     
-    <div id="motivationDisplay" class="motivation-box">
-        <!-- الرسائل العشوائية تظهر هنا -->
+    <div id="motivationDisplay" class="motivation-box">جاري تحميل الرسالة...</div>
+
+    <div class="switch-container">
+        <span style="font-size: 13px; font-weight: bold;">تنبيهات (20 دقيقة)</span>
+        <label class="switch">
+            <input type="checkbox" id="notifToggle" onchange="toggleNotifications()">
+            <span class="slider"></span>
+        </label>
     </div>
 
-    <label style="display:block; text-align:right; margin-bottom:5px;">بدءاً من سورة:</label>
-    <select id="surahSelect" style="width:100%; padding:12px; margin-bottom:20px; border-radius:10px; border:1px solid #ddd;"></select>
+    <div class="input-section">
+        <label>بداية محفوظك:</label>
+        <div class="input-group">
+            <select id="startSurah"></select>
+            <input type="number" id="startAyah" placeholder="آية" value="1">
+        </div>
 
-    <label style="display:block; text-align:right; margin-bottom:5px;">الآية:</label>
-    <input type="number" id="ayahInput" value="1" style="width:100%; padding:12px; margin-bottom:20px; border-radius:10px; border:1px solid #ddd;">
+        <label>نهاية محفوظك:</label>
+        <div class="input-group">
+            <select id="endSurah"></select>
+            <input type="number" id="endAyah" placeholder="آية" value="1">
+        </div>
+    </div>
 
-    <button class="main-btn" onclick="calculateWard()">احسب ورد الأسبوع</button>
+    <button class="main-btn" onclick="calculateByPages()">توزيع الورد (بنظام الصفحات)</button>
 
-    <div id="results" style="margin-top: 25px;"></div>
-    <div id="notifStatus" class="notif-status"></div>
+    <div id="results" style="margin-top: 20px;"></div>
 </div>
 
 <script>
-    const messages = ["القرآن حجة لك أو عليك", "من ترك القرآن تركه الله", "القرآن صديق القبر", "من نسي القرآن نسيه الله", "القرآن لا يهجر إلا قلب ميت", "أعظم الخسارة هجر القرآن", "القرآن في رفّك… أم في قلبك؟", "تركت القرآن… فبماذا ملأت قلبك؟", "هل تخيلت أن القرآن سيشتكيك يوم القيامة؟", "هاتفك تفتحه مئة مرة… والمصحف؟", "الغفلة تبدأ بهجر القرآن", "القلب يصدأ… والقرآن جلاؤه", "هل ضاق صدرك؟ ربما لأنك هجرته", "كم ساعة للهاتف؟ وكم دقيقة للقرآن؟", "قلبك يحتاج القرآن… أكثر مما تظن", "لا تجعل المصحف غريبًا في بيتك", "اقرأ قبل أن يأتي يوم لا تستطيع", "اقرأ قبل أن يقرأ عليك", "اقرأ قبل أن تشكو الغفلة", "لو طهرت قلوبكم ما شبعتم من كلام الله", "نزل القرآن ليُعمل به فاتخذ الناس تلاوته عملاً", "شكوت إلى وكيع سوء حفظي فأرشدني إلى ترك المعاصي", "ينبغي لقارئ القرآن أن يُعرف بدمعته", "وقال الرسول يا رب إن قومي اتخذوا هذا القرآن مهجورًا", "كم من قارئٍ للقرآن والقرآن يلعنه", "إنما يريد الله منك صدق النية", "الإخلاص هو إفراد الحق سبحانه بالقصد في الطاعة", "من أخلص لله كفاه الله", "ما خافه إلا مؤمن، ولا أمنه إلا منافق", "كم من عمل ظاهره صالح وقلب صاحبه خراب", "إن قدرت أن لا تُعرف فافعل", "كيف تنام والقرآن مهجور؟", "قلب بلا قرآن… قلب ميت", "أَلَا بِذِكْرِ ٱللَّهِ تَطْمَئِنُّ ٱلْقُلُوبُ", "وَرَتِّلِ ٱلْقُرْآنَ تَرْتِيلًا", "إِنَّ مَعِيَ رَبِّي سَيَهْدِينِ", "يَرْفَعِ ٱللَّهُ ٱلَّذِينَ آمَنُوا", "وَمَن يَعْشُ عَن ذِكْرِ ٱلرَّحْمَٰنِ", "قُلْ هُوَ لِلَّذِينَ آمَنُوا هُدًى وَشِفَاءٌ", "ٱقْرَأْ وَرَبُّكَ ٱلْأَكْرَمُ", "يُحِبُّهُمْ وَيُحِبُّهُونَ", "ٱهْدِنَا ٱلصِّرَاطَ ٱلْمُسْتَقِيمَ", "ذَٰلِك ٱلْكِتَابُ لَا رَيْبَ فِيهِ", "ٱلَّذِينَ يَذْكُرُونَ ٱللَّهَ قِيَامًا وَقُعُودًا", "يَتْلُونَ كِتَابَ ٱللَّهِ", "قَدْ جَاءَكُم مِّنَ ٱللَّهِ نُورٌ", "فَبِأَيِّ حَدِيثٍ بَعْدَهُ يُؤْمِنُونَ", "يَا أَيُّهَا ٱلنَّاسُ قَدْ جَاءَتْكُم مَّوْعِظَةٌ", "نَحْنُ نَقُصُّ عَلَيْكَ أَحْسَنَ ٱلْقَصَصِ", "ٱلْحَمْدُ لِلَّهِ ٱلَّذِي أَنزَلَ عَلَىٰ عَبْدِهِ ٱلْكِتَابَ"];
+    // الرسائل
+    const messages = ["القرآن حجة لك أو عليك", "من ترك القرآن تركه الله", "القرآن صديق القبر", "من نسي القرآن نسيه الله", "القرآن لا يهجر إلا قلب ميت", "أعظم الخسارة هجر القرآن", "القرآن في رفّك… أم في قلبك؟", "تركت القرآن… فبماذا ملأت قلبك؟", "هل تخيلت أن القرآن سيشتكيك يوم القيامة؟", "هاتفك تفتحه مئة مرة… والمصحف؟", "الغفلة تبدأ بهجر القرآن", "القلب يصدأ… والقرآن جلاؤه", "هل ضاق صدرك؟ ربما لأنك هجرته", "كم ساعة للهاتف؟ وكم دقيقة للقرآن؟", "قلبك يحتاج القرآن… أكثر مما تظن", "لا تجعل المصحف غريبًا في بيتك", "اقرأ قبل أن يأتي يوم لا تستطيع", "اقرأ قبل أن يقرأ عليك", "اقرأ قبل أن تشكو الغفلة", "لو طهرت قلوبكم ما شبعتم من كلام الله", "نزل القرآن ليُعمل به فاتخذ الناس تلاوته عملاً", "شكوت إلى وكيع سوء حفظي فأرشدني إلى ترك المعاصي", "ينبغي لقارئ القرآن أن يُعرف بدمعته", "وقال الرسول يا رب إن قومي اتخذوا هذا القرآن مهجورًا", "كم من قارئٍ للقرآن والقرآن يلعنه", "إنما يريد الله منك صدق النية", "الإخلاص هو إفراد الحق سبحانه بالقصد في الطاعة", "من أخلص لله كفاه الله", "ما خافه إلا مؤمن، ولا أمنه إلا منافق", "كم من عمل ظاهره صالح وقلب صاحبه خراب", "إن قدرت أن لا تُعرف فافعل", "كيف تنام والقرآن مهجور؟", "قلب بلا قرآن… قلب ميت", "أَلَا بِذِكْرِ ٱللَّهِ تَطْمَئِنُّ ٱلْقُلُوبُ", "وَرَتِّلِ ٱلْقُرْآنَ تَرْتِيلًا", "إِنَّ مَعِيَ رَبِّي سَيَهْدِينِ", "يَرْفَعِ ٱللَّهُ ٱلَّذِينَ آمَنُوا", "وَمَن يَعْشُ عَن ذِكْرِ ٱلرَّحْمَٰنِ", "قُلْ هو لِلَّذِينَ آمَنُوا هُدًى وَشِفَاءٌ", "ٱقْرَأْ وَرَبُّكَ ٱلْأَكْرَمُ", "يُحِبُّهُمْ وَيُحِبُّهُونَ", "ٱهْدِنَا ٱلصِّرَاطَ ٱلْمُسْتَقِيمَ", "ذَٰلِك ٱلْكِتَابُ لَا رَيْبَ فِيهِ", "ٱلَّذِينَ يَذْكُرُونَ ٱللَّهَ قِيَامًا وَقُعُودًا", "يَتْلُونَ كِتَابَ ٱللَّهِ", "قَدْ جَاءَكُم مِّنَ ٱللَّهِ نُورٌ", "فَبِأَيِّ حَدِيثٍ بَعْدَهُ يُؤْمِنُونَ", "يَا أَيُّهَا ٱلنَّاسُ قَدْ جَاءَتْكُم مَّوْعِظَةٌ", "نَحْنُ نَقُصُّ عَلَيْكَ أَحْسَنَ ٱلْقَصَصِ", "ٱلْحَمْدُ لِلَّهِ ٱلَّذِي أَنزَلَ عَلَىٰ عَبْدِهِ ٱلْكِتَابَ"];
 
-    function updateMessage() {
-        const randomMsg = messages[Math.floor(Math.random() * messages.length)];
-        document.getElementById('motivationDisplay').innerText = randomMsg;
-        return randomMsg;
+    const surahNames = ["الفاتحة","البقرة","آل عمران","النساء","المائدة","الأنعام","الأعراف","الأنفال","التوبة","يونس","هود","يوسف","الرعد","إبراهيم","الحجر","النحل","الإسراء","الكهف","مريم","طه","الأنبياء","الحج","المؤمنون","النور","الفرقان","الشعراء","النمل","القصص","العنكبوت","الروم","لقمان","السجدة","الأحزاب","سبأ","فاطر","يس","الصافات","ص","الزمر","غافر","فصلت","الشورى","الزخرف","الدخان","الجاثية","الأحقاف","محمد","الفتح","الحجرات","ق","الذاريات","الطور","النجم","القمر","الرحمن","الواقعة","الحديد","المجادلة","الحشر","الممتحنة","الصف","الجمعة","المنافقون","التغابن","الطلاق","التحريم","الملك","القلم","الحاقة","المعارج","نوح","الجن","المزمل","المدثر","القيامة","الإنسان","المرسلات","النبأ","النازعات","عبس","التكوير","الانفطار","المطففين","الانشقاق","البروج","الطارق","الأعلى","الغاشية","الفجر","البلد","الشمس","الليل","الضحى","الشرح","التين","العلق","القدر","البينة","الزلزلة","العاديات","القارعة","التكاثر","العصر","الهمزة","الفيل","قريش","الماعون","الكوثر","الكافرون","النصر","المسد","الإخلاص","الفلق","الناس"];
+
+    const sSel = document.getElementById('startSurah'), eSel = document.getElementById('endSurah');
+    surahNames.forEach((name, i) => {
+        sSel.add(new Option(name, i+1)); eSel.add(new Option(name, i+1));
+    });
+
+    async function fetchPage(s, a) {
+        const r = await fetch(`https://api.alquran.cloud/v1/ayah/${s}:${a}`);
+        const d = await r.json(); return d.data.page;
     }
-    updateMessage();
-    setInterval(updateMessage, 60000);
 
-    // تفعيل التنبيهات كل 20 دقيقة
-    if ("Notification" in window) {
-        Notification.requestPermission().then(permission => {
-            if (permission === "granted") {
-                document.getElementById('notifStatus').innerText = "تذكير تلقائي مفعّل كل 20 دقيقة";
-                setInterval(() => {
-                    const msg = updateMessage();
-                    new Notification("تعهدوا القرآن", { body: msg, icon: "icon.jpg" });
-                }, 1200000); // 20 دقيقة بالمللي ثانية
+    async function getPageRange(p) {
+        const r = await fetch(`https://api.alquran.cloud/v1/page/${p}/quran-uthmani`);
+        const d = await r.json();
+        const first = d.data.ayahs[0];
+        const last = d.data.ayahs[d.data.ayahs.length - 1];
+        return { 
+            startStr: `${first.surah.name} (${first.numberInSurah})`,
+            endStr: `${last.surah.name} (${last.numberInSurah})`
+        };
+    }
+
+    async function calculateByPages() {
+        document.getElementById('results').innerHTML = "<p>جاري ضبط الأجزاء بنظام الصفحات...</p>";
+        
+        try {
+            const pStart = await fetchPage(sSel.value, document.getElementById('startAyah').value);
+            const pEnd = await fetchPage(eSel.value, document.getElementById('endAyah').value);
+            
+            const minP = Math.min(pStart, pEnd), maxP = Math.max(pStart, pEnd);
+            const totalP = maxP - minP + 1;
+            const dailyP = Math.floor(totalP / 7);
+            const remP = totalP % 7;
+
+            const days = ["السبت", "الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة"];
+            let html = `<div style="color:var(--dark-blue); font-weight:bold; margin-bottom:10px;">الإجمالي: ${totalP} صفحة مصحف</div>`;
+            
+            let currentP = minP;
+
+            for (let i = 0; i < 7; i++) {
+                let pCount = dailyP + (i < remP ? 1 : 0);
+                if (pCount === 0 && i >= remP) break; 
+                
+                let dayEndP = currentP + pCount - 1;
+
+                const startInfo = await getPageRange(currentP);
+                const endInfo = await getPageRange(dayEndP);
+
+                html += `<div class="day-row">
+                    <span class="day-name">${days[i]}</span>
+                    <span class="ward-detail">من ${startInfo.startStr} <br>إلى ${endInfo.endStr}</span>
+                </div>`;
+                
+                currentP = dayEndP + 1;
+                if (currentP > maxP) break;
             }
-        });
+            document.getElementById('results').innerHTML = html;
+        } catch (e) {
+            document.getElementById('results').innerHTML = "<p style='color:red'>تأكد من كتابة أرقام آيات صحيحة</p>";
+        }
     }
 
-    const quranData = [{name: "الفاتحة", ayahs: 7}, {name: "البقرة", ayahs: 286}, {name: "آل عمران", ayahs: 200}, {name: "النساء", ayahs: 176}, {name: "المائدة", ayahs: 120}, {name: "الأنعام", ayahs: 165}, {name: "الأعراف", ayahs: 206}, {name: "الأنفال", ayahs: 75}, {name: "التوبة", ayahs: 129}, {name: "يونس", ayahs: 109}, {name: "هود", ayahs: 123}, {name: "يوسف", ayahs: 111}, {name: "الرعد", ayahs: 43}, {name: "إبراهيم", ayahs: 52}, {name: "الحجر", ayahs: 99}, {name: "النحل", ayahs: 128}, {name: "الإسراء", ayahs: 111}, {name: "الكهف", ayahs: 110}, {name: "مريم", ayahs: 98}, {name: "طه", ayahs: 135}, {name: "الأنبياء", ayahs: 112}, {name: "الحج", ayahs: 78}, {name: "المؤمنون", ayahs: 118}, {name: "النور", ayahs: 64}, {name: "الفرقان", ayahs: 77}, {name: "الشعراء", ayahs: 227}, {name: "النمل", ayahs: 93}, {name: "القصص", ayahs: 88}, {name: "العنكبوت", ayahs: 69}, {name: "الروم", ayahs: 60}, {name: "لقمان", ayahs: 34}, {name: "السجدة", ayahs: 30}, {name: "الأحزاب", ayahs: 73}, {name: "سبأ", ayahs: 54}, {name: "فاطر", ayahs: 45}, {name: "يس", ayahs: 83}, {name: "الصافات", ayahs: 182}, {name: "ص", ayahs: 88}, {name: "الزمر", ayahs: 75}, {name: "غافر", ayahs: 85}, {name: "فصلت", ayahs: 54}, {name: "الشورى", ayahs: 53}, {name: "الزخرف", ayahs: 89}, {name: "الدخان", ayahs: 59}, {name: "الجاثية", ayahs: 37}, {name: "الأحقاف", ayahs: 35}, {name: "محمد", ayahs: 38}, {name: "الفتح", ayahs: 29}, {name: "الحجرات", ayahs: 18}, {name: "ق", ayahs: 45}, {name: "الذاريات", ayahs: 60}, {name: "الطور", ayahs: 49}, {name: "النجم", ayahs: 62}, {name: "القمر", ayahs: 55}, {name: "الرحمن", ayahs: 78}, {name: "الواقعة", ayahs: 96}, {name: "الحديد", ayahs: 29}, {name: "المجادلة", ayahs: 22}, {name: "الحشر", ayahs: 24}, {name: "الممتحنة", ayahs: 13}, {name: "الصف", ayahs: 14}, {name: "الجمعة", ayahs: 11}, {name: "المنافقون", ayahs: 11}, {name: "التغابن", ayahs: 18}, {name: "الطلاق", ayahs: 12}, {name: "التحريم", ayahs: 12}, {name: "الملك", ayahs: 30}, {name: "القلم", ayahs: 52}, {name: "الحاقة", ayahs: 52}, {name: "المعارج", ayahs: 44}, {name: "نوح", ayahs: 28}, {name: "الجن", ayahs: 28}, {name: "المزمل", ayahs: 20}, {name: "المدثر", ayahs: 56}, {name: "القيامة", ayahs: 40}, {name: "الإنسان", ayahs: 31}, {name: "المرسلات", ayahs: 50}, {name: "النبأ", ayahs: 40}, {name: "النازعات", ayahs: 46}, {name: "عبس", ayahs: 42}, {name: "التكوير", ayahs: 29}, {name: "الانفطار", ayahs: 19}, {name: "المطففين", ayahs: 36}, {name: "الانشقاق", ayahs: 25}, {name: "البروج", ayahs: 22}, {name: "الطارق", ayahs: 17}, {name: "الأعلى", ayahs: 19}, {name: "الغاشية", ayahs: 26}, {name: "الفجر", ayahs: 30}, {name: "البلد", ayahs: 20}, {name: "الشمس", ayahs: 15}, {name: "الليل", ayahs: 21}, {name: "الضحى", ayahs: 11}, {name: "الشرح", ayahs: 8}, {name: "التين", ayahs: 8}, {name: "العلق", ayahs: 19}, {name: "القدر", ayahs: 5}, {name: "البينة", ayahs: 8}, {name: "الزلزلة", ayahs: 8}, {name: "العاديات", ayahs: 11}, {name: "القارعة", ayahs: 11}, {name: "التكاثر", ayahs: 8}, {name: "العصر", ayahs: 3}, {name: "الهمزة", ayahs: 9}, {name: "الفيل", ayahs: 5}, {name: "قريش", ayahs: 4}, {name: "الماعون", ayahs: 7}, {name: "الكوثر", ayahs: 3}, {name: "الكافرون", ayahs: 6}, {name: "النصر", ayahs: 3}, {name: "المسد", ayahs: 5}, {name: "الإخلاص", ayahs: 4}, {name: "الفلق", ayahs: 5}, {name: "الناس", ayahs: 6}];
+    // التنبيهات
+    let nInt = null;
+    function showMsg() {
+        const m = messages[Math.floor(Math.random() * messages.length)];
+        document.getElementById('motivationDisplay').innerText = m;
+        return m;
+    }
+    showMsg(); setInterval(showMsg, 60000);
 
-    const select = document.getElementById('surahSelect');
-    quranData.forEach((s, idx) => { let opt = document.createElement('option'); opt.value = idx; opt.innerHTML = s.name; select.appendChild(opt); });
-
-    function getAbsoluteAyah(sIdx, aNum) { let c = 0; for(let i=0; i<sIdx; i++) c += quranData[i].ayahs; return c + aNum; }
-    function getRelativeAyah(abs) { let c = 0; for(let i=0; i<114; i++) { if(c + quranData[i].ayahs >= abs) return {name: quranData[i].name, ayah: abs - c}; c += quranData[i].ayahs; } return {name: "الناس", ayah: 6}; }
-
-    function calculateWard() {
-        const sIdx = parseInt(select.value);
-        const aNum = parseInt(document.getElementById('ayahInput').value) || 1;
-        const total = 6236;
-        const currentAbs = getAbsoluteAyah(sIdx, aNum);
-        const daily = Math.ceil((total - currentAbs) / 7);
-        let html = "";
-        const days = ["السبت", "الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة"];
-        let tempAbs = currentAbs;
-        for (let i = 0; i < 7; i++) {
-            let start = getRelativeAyah(tempAbs);
-            let endAbs = tempAbs + daily;
-            if (endAbs >= 6236 || i === 6) endAbs = 6236;
-            let end = getRelativeAyah(endAbs);
-            html += `<div class="day-row"><span class="day-name">${days[i]}</span> من ${start.name} (${start.ayah}) إلى ${end.name} (${end.ayah})</div>`;
-            tempAbs = endAbs;
-            if (tempAbs >= 6236) break;
-        }
-        document.getElementById('results').innerHTML = html;
+    function toggleNotifications() {
+        if (document.getElementById('notifToggle').checked) {
+            Notification.requestPermission().then(p => {
+                if (p === "granted") {
+                    nInt = setInterval(() => {
+                        new Notification("تعهدوا القرآن", { body: showMsg(), icon: "icon.jpg" });
+                    }, 1200000); 
+                } else document.getElementById('notifToggle').checked = false;
+            });
+        } else { clearInterval(nInt); nInt = null; }
     }
 </script>
 </body>
